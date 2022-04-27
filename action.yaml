@@ -32,8 +32,10 @@ runs:
       run: |
         if [[ "${{ inputs.success-or-failure }}" == "success" ]]; then
           SUCCESS_FAILURE="succeeded"
+          COLOR="#65cb8d"
         else
           SUCCESS_FAILURE="failed"
+          COLOR="#eb5b5c"
         fi
     - shell: bash
       run: |
@@ -43,8 +45,8 @@ runs:
                 "username": "${{ inputs.username }}",
                 "attachments": [
                   {
-                    "color": "#65cb8d",
-                    "text": "#### Deploy $SUCCESS_FAILURE\nJob `${{ inputs.github-job }}` SUCCESS_FAILURE on ${{ inputs.github-workflow }} workflow.",
+                    "color": "${COLOR}",
+                    "text": "#### Deploy ${SUCCESS_FAILURE}\nJob `${{ inputs.github-job }}` ${SUCCESS_FAILURE} on ${{ inputs.github-workflow }} workflow.",
                     "fields": [
                       {
                         "short": true,
