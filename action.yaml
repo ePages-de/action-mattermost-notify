@@ -11,10 +11,10 @@ inputs:
     required: true
     default: github-actions
   github-job:
-    description: 'The github job. Can be accessed using: ${{ github.job }}'
+    description: 'The github job. Can be accessed using the following variable: "github.job"'
     required: true
   github-workflow:
-    description: 'The github workflow. Can be accessed using: ${{ github.workflow }}'
+    description: 'The github workflow. Can be accessed using the following variable: "github.workflow"'
     required: true
   repository:
     description: The repository for which the notificaiton should be sent.
@@ -56,7 +56,7 @@ runs:
                       {
                         "short": true,
                         "title": "GitHub Action run",
-                        "value": "https://github.com/${{ input.repository }}/actions/runs/${{ inputs.run-id }}"
+                        "value": "https://github.com/${{ inputs.repository }}/actions/runs/${{ inputs.run-id }}"
                       }
                     ]
                   }
