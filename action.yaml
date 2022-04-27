@@ -37,8 +37,7 @@ runs:
           SUCCESS_FAILURE="failed"
           COLOR="#eb5b5c"
         fi
-    - shell: bash
-      run: |
+
         curl '${{ inputs.webhook-url }}' -i -X POST \
           -H 'Content-Type: application/json' \
           -d '{
