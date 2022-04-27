@@ -1,5 +1,5 @@
 name: Notify Mattermost
-description: An action to notify mattermost.
+description: An action to send notifications to mattermost.
 author: Roberto Welzel Filho <rwelzel@epages.com>
 
 inputs:
@@ -25,9 +25,19 @@ inputs:
   run-id:
     description: The ID of the run in which this notificaiton is being sent.
     required: true
+  success-or-failure:
+    description: 'Use "success" if it was successful, anything else if it failed.'
+    required: true
 runs:
   using: 'composite'
   steps:
+    - shell: bash
+      run: |
+        if [[ "${{ inputs.success-or-failure }}" == "success" ]]; then
+          SUCCESS_FAILURE="succeeded"
+        else
+          SUCCESS_FAILURE="failed"
+        fi
     - shell: bash
       run: |
         curl '${{ inputs.webhook-url }}' -i -X POST \
@@ -37,7 +47,7 @@ runs:
                 "attachments": [
                   {
                     "color": "#65cb8d",
-                    "text": "#### Deploy succeeded\nJob `${{ inputs.github-job }}` succeeded on ${{ inputs.github-workflow }} workflow.",
+                    "text": "#### Deploy $SUCCESS_FAILURE\nJob `${{ inputs.github-job }}` SUCCESS_FAILURE on ${{ inputs.github-workflow }} workflow.",
                     "fields": [
                       {
                         "short": true,
