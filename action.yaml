@@ -38,6 +38,9 @@ runs:
           COLOR="#eb5b5c"
         fi
 
+        echo ${COLOR}
+        echo ${SUCCESS_FAILURE}
+
         curl '${{ inputs.webhook-url }}' -i -X POST \
           -H 'Content-Type: application/json' \
           -d '{
