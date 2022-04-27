@@ -10,9 +10,6 @@ inputs:
     description: The username to be used.
     required: true
     default: github-actions
-  channel:
-    description: The channel to which this message will be sent.
-    required: true
   github-job:
     description: 'The github job. Can be accessed using: ${{ github.job }}'
     required: true
