@@ -1,0 +1,56 @@
+name: Notify Mattermost
+description: An action to notify mattermost.
+author: Roberto Welzel Filho <rwelzel@epages.com>
+
+inputs:
+  webhook-url:
+    description: The URL of the mattermost webhook
+    required: true
+  username:
+    description: The username to be used.
+    required: true
+    default: github-actions
+  channel:
+    description: The channel to which this message will be sent.
+    required: true
+  github-job:
+    description: 'The github job. Can be accessed using: ${{ github.job }}'
+    required: true
+  github-workflow:
+    description: 'The github workflow. Can be accessed using: ${{ github.workflow }}'
+    required: true
+  repository:
+    description: The repository for which the notificaiton should be sent.
+    required: true
+  run-id:
+    description: The ID of the run in which this notificaiton is being sent.
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - shell: bash
+      run: |
+        curl '${{ inputs.webhook-url }}' -i -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{
+                "username": "${{ inputs.username }}",
+                "attachments": [
+                  {
+                    "color": "#65cb8d",
+                    "text": "#### Deploy succeeded\nJob `${{ inputs.github-job }}` succeeded on ${{ inputs.github-workflow }} workflow.",
+                    "fields": [
+                      {
+                        "short": true,
+                        "title": "GitHub repository",
+                        "value": "https://github.com/${{ inputs.repository }}"
+                      },
+                      {
+                        "short": true,
+                        "title": "GitHub Action run",
+                        "value": "https://github.com/${{ input.repository }}/actions/runs/${{ inputs.run-id }}"
+                      }
+                    ]
+                  }
+                ]
+              }'
+      
